@@ -38,8 +38,10 @@ namespace Ado.NETTask2.Repos
         {
             using (conn=new SqlConnection())
             {
-                var cmd = new SqlCommand("Insert into authors (Id,FirstName,LastName) values(@Id,@Name,@Surname)", conn);
                 conn.ConnectionString=connectionString;
+                conn.Open();
+                var cmd = new SqlCommand("Insert into authors (Id,FirstName,LastName) values(@Id,@Name,@Surname)", conn);
+                
                 cmd.Parameters.Add(new SqlParameter
                 {
                     DbType=DbType.Int16,
@@ -61,10 +63,12 @@ namespace Ado.NETTask2.Repos
 
                 var sda = new SqlDataAdapter();
                 sda.InsertCommand=cmd;
-                sda.Update(set, "AuthorSet");
+                sda.InsertCommand.ExecuteNonQuery();
+                sda.Update(set, "AuthorsSet");
                 set.Clear();
                 sda=new SqlDataAdapter("select * from Authors", conn);
-                sda.Fill(set, "AuthorSet");
+
+                sda.Fill(set, "AuthorsSet");
             }
         }
         public void DeleteAuthor(int Id)
@@ -81,10 +85,10 @@ namespace Ado.NETTask2.Repos
                 });
                 var sda = new SqlDataAdapter();
                 sda.DeleteCommand=cmd;
-                sda.Update(set, "AuthorSet");
+                sda.Update(set, "AuthorsSet");
                 set.Clear();
                 sda=new SqlDataAdapter("select * from Authors", conn);
-                sda.Fill(set, "AuthorSet");
+                sda.Fill(set, "AuthorsSet");
             }
         }
     }

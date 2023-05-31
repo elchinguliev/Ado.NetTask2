@@ -47,7 +47,7 @@ namespace Ado.NETTask2.ViewModels
 
         private int ID;
 
-        public int SelectedId
+        public int DeletedId
         {
             get { return ID; }
             set { ID = value; OnPropertyChanged(); }
@@ -66,7 +66,7 @@ namespace Ado.NETTask2.ViewModels
 
             DeleteAuthor = new RelayCommand((obj) =>
             {
-                AuthorsReposs.DeleteAuthor(SelectedId);
+                AuthorsReposs.DeleteAuthor(DeletedId);
             });
 
             ShowAll = new RelayCommand((obj) =>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ado.NETTask2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="Pink">
+        Title="MainWindow" Height="558" Width="1139" Background="Pink">
     <Canvas>
         <Label FontSize="40" FontWeight="ExtraBold" Background="Transparent" Canvas.Left="42" Canvas.Top="47" HorizontalAlignment="Left" VerticalAlignment="Top" Width="58" RenderTransformOrigin="0.829,0.497">ID</Label>
         <Label FontSize="40" FontWeight="ExtraBold" Background="Transparent" Canvas.Left="10" Canvas.Top="133" HorizontalAlignment="Center" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.829,0.497">Firstname</Label>
