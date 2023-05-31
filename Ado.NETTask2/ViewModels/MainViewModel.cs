@@ -17,6 +17,7 @@ namespace Ado.NETTask2.ViewModels
         public RelayCommand ShowAll { get; set; }
         public RelayCommand InsertAuthor { get; set; }
         public RelayCommand DeleteAuthor { get; set; }
+        public RelayCommand UpdateAuthor { get; set; }
 
         public Reposs AuthorsReposs { get; set; }
         public DataSet AuthorSet { get; set; } = new DataSet();
@@ -53,6 +54,9 @@ namespace Ado.NETTask2.ViewModels
             set { ID = value; OnPropertyChanged(); }
         }
 
+        public string Surname { get; private set; }
+        public string Name { get; private set; }
+
         public MainViewModel()
         {
             AuthorsReposs = new Reposs();
@@ -62,6 +66,7 @@ namespace Ado.NETTask2.ViewModels
             InsertAuthor = new RelayCommand((obj) =>
             {
                 AuthorsReposs.InsertAuthor(Id, FirstName, LastName);
+               
             });
 
             DeleteAuthor = new RelayCommand((obj) =>
@@ -73,6 +78,12 @@ namespace Ado.NETTask2.ViewModels
             {
                 AuthorSet = AuthorsReposs.GetAll();
             });
+            UpdateAuthor = new RelayCommand((obj) =>
+            {
+                AuthorsReposs.UpdateAuthor(Id,Name,Surname);
+            });
+
         }
+
     }
 }

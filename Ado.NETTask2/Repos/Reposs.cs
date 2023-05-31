@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ado.NETTask2.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -34,20 +35,20 @@ namespace Ado.NETTask2.Repos
             return set;
         }
 
-        public void InsertAuthor(int Id,string Name,string Surname)
+        public void InsertAuthor(int Id, string Name, string Surname)
         {
             using (conn=new SqlConnection())
             {
+                var cmd = new SqlCommand("Insert into authors (Id,FirstName,LastName) values(@Id,@Name,@Surname)", conn);
                 conn.ConnectionString=connectionString;
                 conn.Open();
-                var cmd = new SqlCommand("Insert into authors (Id,FirstName,LastName) values(@Id,@Name,@Surname)", conn);
-                
+
                 cmd.Parameters.Add(new SqlParameter
                 {
-                    DbType=DbType.Int16,
+                    DbType=DbType.Int32,
                     ParameterName="@Id",
                     Value=Id
-                }) ;
+                });
                 cmd.Parameters.Add(new SqlParameter
                 {
                     SqlDbType=SqlDbType.NVarChar,
@@ -56,8 +57,8 @@ namespace Ado.NETTask2.Repos
                 });
                 cmd.Parameters.Add(new SqlParameter
                 {
-                    DbType=DbType.Int16,
-                    ParameterName="@Surnname",
+                    SqlDbType=SqlDbType.NVarChar,
+                    ParameterName="@Surname",
                     Value=Surname
                 });
 
@@ -69,6 +70,7 @@ namespace Ado.NETTask2.Repos
                 sda=new SqlDataAdapter("select * from Authors", conn);
 
                 sda.Fill(set, "AuthorsSet");
+
             }
         }
         public void DeleteAuthor(int Id)
@@ -77,18 +79,63 @@ namespace Ado.NETTask2.Repos
             {
                 var cmd = new SqlCommand("Delete from authors where Id=@Id", conn);
                 conn.ConnectionString=connectionString;
+                conn.Open();
                 cmd.Parameters.Add(new SqlParameter
                 {
-                    DbType=DbType.Int16,
+                    DbType=DbType.Int32,
                     ParameterName="@Id",
                     Value = Id
                 });
                 var sda = new SqlDataAdapter();
                 sda.DeleteCommand=cmd;
+                sda.DeleteCommand.ExecuteNonQuery();
                 sda.Update(set, "AuthorsSet");
                 set.Clear();
                 sda=new SqlDataAdapter("select * from Authors", conn);
                 sda.Fill(set, "AuthorsSet");
+            }
+
+
+
+
+        }
+        public void UpdateAuthor(int Id,string Name,string Surname)
+        {
+            using (conn = new SqlConnection())
+            {
+                conn.ConnectionString = connectionString;
+                conn.Open();
+
+                var command = new SqlCommand("UPDATE Authors SET Firstname=@firstName WHERE Id=@id", conn);
+
+                command.Parameters.Add(new SqlParameter
+                {
+                    DbType = DbType.Int32,
+                    ParameterName = "@id",
+                    Value = 4
+                });
+
+                command.Parameters.Add(new SqlParameter
+                {
+                    SqlDbType=SqlDbType.NVarChar,
+                    ParameterName="@firstName",
+                    Value="Elchin"
+                });
+
+                var da = new SqlDataAdapter();
+                da.UpdateCommand = command;
+                da.UpdateCommand.ExecuteNonQuery();
+
+                da.Update(set, "AuthorsSet");
+                set.Clear();
+
+                da = new SqlDataAdapter("SELECT * FROM Authors;SELECT * FROM Books", conn);
+
+                da.Fill(set, "AuthorsSet");
+
+               
+
+
             }
         }
     }
